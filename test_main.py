@@ -45,53 +45,53 @@ class TestMatrixLogic(unittest.TestCase):
     def test_merge_directions(self):
         example_board = Game()
         example_board.matrix = [[0, 0, 0, 0], [0, 0, 0, 0], [0, 2, 2, 0], [0, 0, 0, 0]]
-        example_board.stackRIGHT()
+        example_board.stack_right()
         self.assertEqual(example_board.matrix, [[0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 4], [0, 0, 0, 0]], "If we move 2x 2 from [0,2,2,0] in the third row to RIGHT we will get [0,0,0,4]")
         example_board.matrix = [[0, 0, 0, 0], [0, 0, 0, 0], [0, 2, 2, 0], [0, 0, 0, 0]]
-        example_board.stackLEFT()
+        example_board.stack_left()
         self.assertEqual(example_board.matrix, [[0, 0, 0, 0], [0, 0, 0, 0], [4, 0, 0, 0], [0, 0, 0, 0]], "If we move 2x 2 from [0,2,2,0] in the third row to LEFT we will get [4,0,0,0]")
         example_board.matrix = [[0, 0, 0, 0], [0, 0, 0, 0], [0, 2, 2, 0], [0, 0, 0, 0]]
-        example_board.stackDOWN()
+        example_board.stack_down()
         self.assertEqual(example_board.matrix, [[0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 2, 2, 0]], "If we move 2x 2 from [0,2,2,0] in the third row to DOWN we will get [0,2,2,0]")
         example_board.matrix = [[0, 0, 0, 0], [0, 0, 0, 0], [0, 2, 2, 0], [0, 0, 0, 0]]
-        example_board.stackUP()
+        example_board.stack_up()
         self.assertEqual(example_board.matrix, [[0, 2, 2, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]], "If we move 2x 2 from [0,2,2,0] in the third row to UP  we will get [0,2,2,0]")
 
     def test_compareMatrix(self):
         example_board = Game()
         example_board.matrix = [[0, 0, 0, 2], [0, 0, 0, 2], [0, 0, 0, 2], [0, 0, 0, 2]]
         example_board_copy = [[0, 0, 0, 2], [0, 0, 0, 2], [0, 0, 0, 2], [0, 0, 0, 2]]
-        self.assertTrue(example_board.compareMatrix(example_board_copy))
+        self.assertTrue(example_board.compare_matrix(example_board_copy))
         example_board_copy = [[0, 0, 0, 2], [0, 0, 0, 2], [2, 0, 0, 2], [0, 0, 0, 2]]
-        self.assertFalse(example_board.compareMatrix(example_board_copy))
+        self.assertFalse(example_board.compare_matrix(example_board_copy))
 
     def test_checkIfHorizontIsPossible(self):
         example_board = Game()
         example_board.matrix = [[2, 4, 8, 16], [4, 8, 16, 2], [2, 4, 8, 16], [4, 8, 16, 2]]
-        self.assertFalse(example_board.checkIfHorizontIsPossible())
+        self.assertFalse(example_board.check_if_horizont_is_possible())
         example_board.matrix = [[2, 4, 8, 16], [2, 2, 16, 2], [2, 4, 8, 16], [4, 8, 16, 2]]
-        self.assertTrue(example_board.checkIfHorizontIsPossible())
+        self.assertTrue(example_board.check_if_horizont_is_possible())
 
     def test_checkIfVerticalIsPossible(self):
         example_board = Game()
         example_board.matrix = [[2, 4, 8, 16], [4, 8, 16, 2], [2, 4, 8, 16], [4, 8, 16, 2]]
-        self.assertFalse(example_board.checkIfVerticalIsPossible())
+        self.assertFalse(example_board.check_if_vertical_is_possible())
         example_board.matrix = [[2, 4, 8, 16], [2, 2, 16, 2], [2, 4, 8, 16], [4, 8, 16, 2]]
-        self.assertTrue(example_board.checkIfVerticalIsPossible())
+        self.assertTrue(example_board.check_if_vertical_is_possible())
 
     def test_check_score(self):
         example_board = Game()
         example_board.matrix = [[2, 2, 2, 2], [0, 0, 0, 2], [0, 0, 0, 2], [0, 0, 0, 0]]
-        self.assertFalse(example_board.checkScore())
+        self.assertFalse(example_board.check_score())
         example_board.matrix = [[2, 2, 2, 2], [0, 2048, 0, 2], [0, 0, 0, 2], [0, 0, 0, 0]]
-        self.assertTrue(example_board.checkScore())
+        self.assertTrue(example_board.check_score())
 
     def test_addNewTwo(self):
         example_board = Game()
         example_board.matrix = [[2, 4, 8, 16], [4, 8, 16, 2], [2, 4, 8, 16], [4, 8, 16, 2]]
-        self.assertRaises(Exception, example_board.addNewTwo)
+        self.assertRaises(Exception, example_board.add_new_two)
         example_board.matrix = [[0, 4, 8, 16], [4, 8, 16, 2], [2, 4, 8, 16], [4, 8, 16, 2]]
-        example_board.addNewTwo()
+        example_board.add_new_two()
 
 
 

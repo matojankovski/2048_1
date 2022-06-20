@@ -25,17 +25,15 @@ class Game:
 
         self.display()
 
-    def HasEmptyFields(self):
+    def has_empty_fields(self):
         for i in range(4):
             for j in range(4):
                 if self.matrix[i][j] == 0:
                     return True
         return False
 
-
-
-    def addNewTwo(self):
-        if not self.HasEmptyFields():
+    def add_new_two(self):
+        if not self.has_empty_fields():
             raise Exception("Error. There are no empty fields")
         while True:
             x = random.randint(0, 3)
@@ -43,9 +41,6 @@ class Game:
             if self.matrix[x][y] == 0:
                 break
         self.matrix[x][y] = 2
-
-
-
 
     def display(self):
         spaces = 4
@@ -60,8 +55,6 @@ class Game:
         print()
         print("SCORE:", self.score)
 
-
-
     def stack(self):
         new_matrix = [[0] * 4 for i in range(4)]
         for i in range(4):
@@ -72,14 +65,12 @@ class Game:
                     position_to_fill += 1
         self.matrix = new_matrix
 
-
     def transpose(self):
         new_matrix = [[0] * 4 for i in range(4)]
         for i in range(4):
             for j in range(4):
                 new_matrix[i][j] = self.matrix[j][i]
         self.matrix = new_matrix
-
 
     def combine(self):
         for i in range(4):
@@ -97,7 +88,7 @@ class Game:
                 new_matrix[i].append(self.matrix[i][3 - j])
         self.matrix = new_matrix
 
-    def checkIfHorizontIsPossible(self):
+    def check_if_horizont_is_possible(self):
         for i in range(4):
             for j in range(3):
                 if self.matrix[i][j] == self.matrix[i][j+1]:
@@ -105,7 +96,7 @@ class Game:
         else:
             return False
 
-    def checkIfVerticalIsPossible(self):
+    def check_if_vertical_is_possible(self):
         for i in range(3):
             for j in range(4):
                 if self.matrix[i][j] == self.matrix[i+1][j]:
@@ -113,40 +104,34 @@ class Game:
         else:
             return False
 
-    def checkScore(self):
+    def check_score(self):
         for i in range(4):
             for j in range(4):
                 if self.matrix[i][j] == 2048:
                     print("WINNER")
                     return True
-        return not (self.checkIfVerticalIsPossible() or self.checkIfHorizontIsPossible())
+        return not (self.check_if_vertical_is_possible() or self.check_if_horizont_is_possible())
 
-
-
-
-    def stackRIGHT(self):
+    def stack_right(self):
         self.reverse()
         self.stack()
         self.combine()
         self.stack()
         self.reverse()
 
-
-    def stackLEFT(self):
+    def stack_left(self):
         self.stack()
         self.combine()
         self.stack()
 
-
-    def stackUP(self):
+    def stack_up(self):
         self.transpose()
         self.stack()
         self.combine()
         self.stack()
         self.transpose()
 
-
-    def stackDOWN(self):
+    def stack_down(self):
         self.transpose()
         self.reverse()
         self.stack()
@@ -155,39 +140,37 @@ class Game:
         self.reverse()
         self.transpose()
 
-    def compareMatrix(self, temp):
+    def compare_matrix(self, temp):
         if temp == self.matrix:
             return True
         return False
 
-
-
     def play(self):
         while True:
             vstup = input()
-            tempBoard = copy.deepcopy(self.matrix)
+            temp_board = copy.deepcopy(self.matrix)
             if vstup == "4":
                 print("DIRECTION: LEFT")
-                self.stackLEFT()
+                self.stack_left()
             elif vstup == "8":
                 print("DIRECTION: UP")
-                self.stackUP()
+                self.stack_up()
             elif vstup == "6":
                 print("DIRECTION: RIGHT")
-                self.stackRIGHT()
+                self.stack_right()
             elif vstup == "2":
                 print("DIRECTION: DOWN")
-                self.stackDOWN()
+                self.stack_down()
             elif vstup == "q":
                 break
-            if self.compareMatrix(tempBoard):
+            if self.compare_matrix(temp_board):
                 print("INVALID MOVE. MAKE NEW MOVE")
             else:
-                if self.checkScore():
+                if self.check_score():
                     break
                 else:
                     try:
-                        self.addNewTwo()
+                        self.add_new_two()
                         self.display()
                     except Exception as ex:
                         print("Could not add new number", ex)
