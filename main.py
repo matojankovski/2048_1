@@ -10,9 +10,6 @@ class Game:
         self.start_game()
 
     def start_game(self):
-        # 4x4 matrix of zeroes
-        # self.matrix = [[0] * 4 for i in range(4)]
-
         # fill 2 random cells with number 2
         x = random.randint(0, 3)
         y = random.randint(0, 3)
@@ -25,6 +22,7 @@ class Game:
 
         self.display()
 
+    #check if any field is empy
     def has_empty_fields(self):
         for i in range(4):
             for j in range(4):
@@ -32,6 +30,7 @@ class Game:
                     return True
         return False
 
+    #add random 2 into matrix
     def add_new_two(self):
         if not self.has_empty_fields():
             raise Exception("Error. There are no empty fields")
@@ -42,6 +41,7 @@ class Game:
                 break
         self.matrix[x][y] = 2
 
+    #display current matrix into console
     def display(self):
         spaces = 4
         for x in self.matrix:
@@ -55,6 +55,7 @@ class Game:
         print()
         print("SCORE:", self.score)
 
+    #move all numbers to the farest left corner possible
     def stack(self):
         new_matrix = [[0] * 4 for i in range(4)]
         for i in range(4):
@@ -65,6 +66,7 @@ class Game:
                     position_to_fill += 1
         self.matrix = new_matrix
 
+    #transpose matrix - used for vertical movement
     def transpose(self):
         new_matrix = [[0] * 4 for i in range(4)]
         for i in range(4):
@@ -72,6 +74,7 @@ class Game:
                 new_matrix[i][j] = self.matrix[j][i]
         self.matrix = new_matrix
 
+    #combine cells of the same value into one another
     def combine(self):
         for i in range(4):
             for j in range(3):
@@ -80,6 +83,7 @@ class Game:
                     self.matrix[i][j + 1] = 0
                     self.score += self.matrix[i][j]
 
+    #will reverse matrix - used for horizontal movement
     def reverse(self):
         new_matrix = []
         for i in range(4):
@@ -88,6 +92,7 @@ class Game:
                 new_matrix[i].append(self.matrix[i][3 - j])
         self.matrix = new_matrix
 
+    #will check if horizontal movemnt is possible
     def check_if_horizont_is_possible(self):
         for i in range(4):
             for j in range(3):
@@ -96,6 +101,7 @@ class Game:
         else:
             return False
 
+    #will check if vertical movement is possible
     def check_if_vertical_is_possible(self):
         for i in range(3):
             for j in range(4):
@@ -112,6 +118,8 @@ class Game:
                     return True
         return not (self.check_if_vertical_is_possible() or self.check_if_horizont_is_possible())
 
+    #steps: 1. reverse matrix. 2. move the most left corner. 3. combine same cells in X line. 4. move to the most left corner.
+    #5. reverse to get right matrix
     def stack_right(self):
         self.reverse()
         self.stack()
@@ -119,11 +127,14 @@ class Game:
         self.stack()
         self.reverse()
 
+    #steps: 1. move to the most left corner. 2. combine same cells in X line. 3. move to the most left corner
     def stack_left(self):
         self.stack()
         self.combine()
         self.stack()
 
+    # steps: 1. transpose matrix. 2. move the most left corner. 3. combine same cells in X line. 4. move to the most left corner.
+    # 5. transpose matrixx
     def stack_up(self):
         self.transpose()
         self.stack()
@@ -131,6 +142,8 @@ class Game:
         self.stack()
         self.transpose()
 
+    # steps: 1. transpose matrix. 2. reverse matrix. 3. move the most left corner. 3. combine same cells in X line. 4. move to the most left corner.
+    # 5. reverse matrix 6. transpose matrixx
     def stack_down(self):
         self.transpose()
         self.reverse()
@@ -140,6 +153,7 @@ class Game:
         self.reverse()
         self.transpose()
 
+    #need to check if movement is possible in the matrix
     def compare_matrix(self, temp):
         if temp == self.matrix:
             return True
@@ -164,7 +178,7 @@ class Game:
             elif vstup == "q":
                 break
             if self.compare_matrix(temp_board):
-                print("INVALID MOVE. MAKE NEW MOVE")
+                print("INVALID MOVE. MAKE NEW MOVE") #if movement is not possible
             else:
                 if self.check_score():
                     break
